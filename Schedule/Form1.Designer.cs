@@ -34,12 +34,13 @@
             this.guna2ShadowForm1 = new Guna.UI2.WinForms.Guna2ShadowForm(this.components);
             this.guna2DragControl1 = new Guna.UI2.WinForms.Guna2DragControl(this.components);
             this.guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
+            this.guna2GradientButton1 = new Guna.UI2.WinForms.Guna2GradientButton();
+            this.guna2ControlBox3 = new Guna.UI2.WinForms.Guna2ControlBox();
             this.guna2ControlBox2 = new Guna.UI2.WinForms.Guna2ControlBox();
             this.guna2ControlBox1 = new Guna.UI2.WinForms.Guna2ControlBox();
             this.titleLabel = new System.Windows.Forms.Label();
             this.rightMonth = new Guna.UI2.WinForms.Guna2Button();
             this.leftMonth = new Guna.UI2.WinForms.Guna2Button();
-            this.guna2AnimateWindow1 = new Guna.UI2.WinForms.Guna2AnimateWindow(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -47,9 +48,9 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.guna2ControlBox3 = new Guna.UI2.WinForms.Guna2ControlBox();
             this.guna2Separator1 = new Guna.UI2.WinForms.Guna2Separator();
-            this.guna2GradientButton1 = new Guna.UI2.WinForms.Guna2GradientButton();
+            this.guna2TextBox1 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.listBoxActivities = new System.Windows.Forms.ListBox();
             this.guna2Panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,7 +82,7 @@
             // 
             // guna2ShadowForm1
             // 
-            this.guna2ShadowForm1.BorderRadius = 30;
+            this.guna2ShadowForm1.BorderRadius = 100;
             this.guna2ShadowForm1.TargetForm = this;
             // 
             // guna2DragControl1
@@ -106,12 +107,45 @@
             this.guna2Panel1.Size = new System.Drawing.Size(1590, 78);
             this.guna2Panel1.TabIndex = 2;
             // 
+            // guna2GradientButton1
+            // 
+            this.guna2GradientButton1.BorderRadius = 10;
+            this.guna2GradientButton1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.guna2GradientButton1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.guna2GradientButton1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.guna2GradientButton1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.guna2GradientButton1.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.guna2GradientButton1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.guna2GradientButton1.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guna2GradientButton1.ForeColor = System.Drawing.Color.BlanchedAlmond;
+            this.guna2GradientButton1.Location = new System.Drawing.Point(28, 30);
+            this.guna2GradientButton1.Name = "guna2GradientButton1";
+            this.guna2GradientButton1.Size = new System.Drawing.Size(69, 28);
+            this.guna2GradientButton1.TabIndex = 8;
+            this.guna2GradientButton1.Text = "오늘";
+            this.guna2GradientButton1.Click += new System.EventHandler(this.guna2GradientButton1_Click);
+            // 
+            // guna2ControlBox3
+            // 
+            this.guna2ControlBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.guna2ControlBox3.BackColor = System.Drawing.SystemColors.Control;
+            this.guna2ControlBox3.BorderRadius = 10;
+            this.guna2ControlBox3.ControlBoxType = Guna.UI2.WinForms.Enums.ControlBoxType.MinimizeBox;
+            this.guna2ControlBox3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.guna2ControlBox3.FillColor = System.Drawing.SystemColors.Control;
+            this.guna2ControlBox3.IconColor = System.Drawing.Color.Black;
+            this.guna2ControlBox3.Location = new System.Drawing.Point(1413, 12);
+            this.guna2ControlBox3.Name = "guna2ControlBox3";
+            this.guna2ControlBox3.Size = new System.Drawing.Size(50, 50);
+            this.guna2ControlBox3.TabIndex = 3;
+            // 
             // guna2ControlBox2
             // 
             this.guna2ControlBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.guna2ControlBox2.BackColor = System.Drawing.SystemColors.Control;
             this.guna2ControlBox2.BorderRadius = 10;
             this.guna2ControlBox2.ControlBoxType = Guna.UI2.WinForms.Enums.ControlBoxType.MaximizeBox;
+            this.guna2ControlBox2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.guna2ControlBox2.FillColor = System.Drawing.SystemColors.Control;
             this.guna2ControlBox2.IconColor = System.Drawing.Color.Black;
             this.guna2ControlBox2.Location = new System.Drawing.Point(1469, 12);
@@ -124,6 +158,7 @@
             this.guna2ControlBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.guna2ControlBox1.BackColor = System.Drawing.SystemColors.Control;
             this.guna2ControlBox1.BorderRadius = 10;
+            this.guna2ControlBox1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.guna2ControlBox1.FillColor = System.Drawing.SystemColors.Control;
             this.guna2ControlBox1.IconColor = System.Drawing.Color.Black;
             this.guna2ControlBox1.Location = new System.Drawing.Point(1525, 12);
@@ -144,6 +179,7 @@
             // rightMonth
             // 
             this.rightMonth.BorderColor = System.Drawing.SystemColors.Control;
+            this.rightMonth.Cursor = System.Windows.Forms.Cursors.Hand;
             this.rightMonth.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.rightMonth.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.rightMonth.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -162,6 +198,7 @@
             // leftMonth
             // 
             this.leftMonth.BorderColor = System.Drawing.SystemColors.Control;
+            this.leftMonth.Cursor = System.Windows.Forms.Cursors.Hand;
             this.leftMonth.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
             this.leftMonth.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
             this.leftMonth.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
@@ -176,10 +213,6 @@
             this.leftMonth.TabIndex = 5;
             this.leftMonth.Text = "◀";
             this.leftMonth.Click += new System.EventHandler(this.leftMonth_Click);
-            // 
-            // guna2AnimateWindow1
-            // 
-            this.guna2AnimateWindow1.TargetForm = this;
             // 
             // label1
             // 
@@ -253,19 +286,6 @@
             this.label7.TabIndex = 6;
             this.label7.Text = "토";
             // 
-            // guna2ControlBox3
-            // 
-            this.guna2ControlBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.guna2ControlBox3.BackColor = System.Drawing.SystemColors.Control;
-            this.guna2ControlBox3.BorderRadius = 10;
-            this.guna2ControlBox3.ControlBoxType = Guna.UI2.WinForms.Enums.ControlBoxType.MinimizeBox;
-            this.guna2ControlBox3.FillColor = System.Drawing.SystemColors.Control;
-            this.guna2ControlBox3.IconColor = System.Drawing.Color.Black;
-            this.guna2ControlBox3.Location = new System.Drawing.Point(1413, 12);
-            this.guna2ControlBox3.Name = "guna2ControlBox3";
-            this.guna2ControlBox3.Size = new System.Drawing.Size(50, 50);
-            this.guna2ControlBox3.TabIndex = 3;
-            // 
             // guna2Separator1
             // 
             this.guna2Separator1.Location = new System.Drawing.Point(27, 100);
@@ -273,28 +293,40 @@
             this.guna2Separator1.Size = new System.Drawing.Size(1133, 10);
             this.guna2Separator1.TabIndex = 7;
             // 
-            // guna2GradientButton1
+            // guna2TextBox1
             // 
-            this.guna2GradientButton1.BorderRadius = 10;
-            this.guna2GradientButton1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.guna2GradientButton1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.guna2GradientButton1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2GradientButton1.DisabledState.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2GradientButton1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.guna2GradientButton1.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2GradientButton1.ForeColor = System.Drawing.Color.BlanchedAlmond;
-            this.guna2GradientButton1.Location = new System.Drawing.Point(28, 30);
-            this.guna2GradientButton1.Name = "guna2GradientButton1";
-            this.guna2GradientButton1.Size = new System.Drawing.Size(69, 28);
-            this.guna2GradientButton1.TabIndex = 8;
-            this.guna2GradientButton1.Text = "오늘";
-            this.guna2GradientButton1.Click += new System.EventHandler(this.guna2GradientButton1_Click);
+            this.guna2TextBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.guna2TextBox1.DefaultText = "";
+            this.guna2TextBox1.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.guna2TextBox1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.guna2TextBox1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.guna2TextBox1.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.guna2TextBox1.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.guna2TextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2TextBox1.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.guna2TextBox1.Location = new System.Drawing.Point(1237, 121);
+            this.guna2TextBox1.Name = "guna2TextBox1";
+            this.guna2TextBox1.PlaceholderText = "";
+            this.guna2TextBox1.SelectedText = "";
+            this.guna2TextBox1.Size = new System.Drawing.Size(179, 28);
+            this.guna2TextBox1.TabIndex = 8;
+            // 
+            // listBoxActivities
+            // 
+            this.listBoxActivities.FormattingEnabled = true;
+            this.listBoxActivities.ItemHeight = 12;
+            this.listBoxActivities.Location = new System.Drawing.Point(1237, 186);
+            this.listBoxActivities.Name = "listBoxActivities";
+            this.listBoxActivities.Size = new System.Drawing.Size(120, 88);
+            this.listBoxActivities.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1590, 701);
+            this.Controls.Add(this.listBoxActivities);
+            this.Controls.Add(this.guna2TextBox1);
             this.Controls.Add(this.guna2Separator1);
             this.Controls.Add(this.tableLayoutPanel);
             this.Controls.Add(this.label7);
@@ -324,7 +356,6 @@
         private Guna.UI2.WinForms.Guna2ControlBox guna2ControlBox1;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
         private Guna.UI2.WinForms.Guna2DragControl guna2DragControl1;
-        private Guna.UI2.WinForms.Guna2AnimateWindow guna2AnimateWindow1;
         private System.Windows.Forms.Label titleLabel;
         private Guna.UI2.WinForms.Guna2Button leftMonth;
         private Guna.UI2.WinForms.Guna2Button rightMonth;
@@ -338,6 +369,8 @@
         private Guna.UI2.WinForms.Guna2ControlBox guna2ControlBox3;
         private Guna.UI2.WinForms.Guna2Separator guna2Separator1;
         private Guna.UI2.WinForms.Guna2GradientButton guna2GradientButton1;
+        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox1;
+        private System.Windows.Forms.ListBox listBoxActivities;
     }
 }
 

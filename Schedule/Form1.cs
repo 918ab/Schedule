@@ -9,7 +9,6 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace Schedule
@@ -19,21 +18,31 @@ namespace Schedule
         private DateTime currentDate = DateTime.Now;
         int currentYear = DateTime.Now.Year;
         int currentMonth = DateTime.Now.Month;
+
         public Form1()
         {
             InitializeComponent();
+            InitActivityList(); // 활동 미리 넣기
             UpdateTitle();
             DrawCalendar();
         }
-        private void UpdateTitle()
+
+        private void InitActivityList()
         {
-            titleLabel.Text = $"{currentDate.Year}년 {currentDate.Month}월";
+            listBoxActivities.Items.AddRange(new string[]
+            {
+                "사랑의 편지 쓰기", "퍼즐 맞추기", "신문읽기", "미술활동", "체조", "노래 부르기",
+                "종이접기", "건강체조", "동화 듣기", "회상 퀴즈"
+            });
         }
 
+        private void UpdateTitle()
+        {
+            titleLabel.Text = $"{currentYear}년 {currentMonth}월";
+        }
 
         private async void DrawCalendar()
         {
-            // 타이틀 업데이트
             titleLabel.Text = $"{currentYear}년 {currentMonth}월";
             tableLayoutPanel.Controls.Clear();
 
@@ -41,10 +50,9 @@ namespace Schedule
             int daysInMonth = DateTime.DaysInMonth(currentYear, currentMonth);
             int startDayOfWeek = (int)firstDay.DayOfWeek;
 
-            // ✅ 공휴일 정보 가져오기
             var holidays = await GetHolidaysAsync(currentYear, currentMonth);
-
             int day = 1;
+
             for (int row = 0; row < 5; row++)
             {
                 for (int col = 0; col < 7; col++)
@@ -55,36 +63,124 @@ namespace Schedule
                     {
                         DateTime thisDate = new DateTime(currentYear, currentMonth, day);
 
+                        Panel dayPanel = new Panel();
+                        dayPanel.Dock = DockStyle.Fill;
+                        dayPanel.Margin = new Padding(2);
+                        dayPanel.BackColor = Color.White;
+                        dayPanel.BorderStyle = BorderStyle.FixedSingle;
+
                         Label dayLabel = new Label();
                         dayLabel.Text = day.ToString();
-                        dayLabel.TextAlign = ContentAlignment.TopLeft;
-                        dayLabel.Dock = DockStyle.Fill;
                         dayLabel.Font = new Font("맑은 고딕", 11, FontStyle.Bold);
-                        dayLabel.Padding = new Padding(5);
-                        dayLabel.Margin = new Padding(2);
-                        dayLabel.BackColor = Color.White;
-                        dayLabel.BorderStyle = BorderStyle.FixedSingle;
+                        dayLabel.AutoSize = true;
+                        dayLabel.Location = new Point(5, 5);
 
-                        // 🔴 일요일
-                        if (col == 0)
+                        Label holidayLabel = new Label();
+                        holidayLabel.Text = holidays.ContainsKey(thisDate) ? holidays[thisDate] : "";
+                        holidayLabel.Font = new Font("맑은 고딕", 8, FontStyle.Regular);
+                        holidayLabel.AutoSize = true;
+                        holidayLabel.ForeColor = Color.Red;
+                        holidayLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+                        holidayLabel.Location = new Point(dayPanel.Width - 60, 8);
+
+                        dayPanel.Resize += (s, e) =>
+                        {
+                            holidayLabel.Location = new Point(dayPanel.Width - holidayLabel.Width - 5, 8);
+                        };
+
+                        if (col == 0 || holidays.ContainsKey(thisDate))
                             dayLabel.ForeColor = Color.Red;
-                        // 🔵 토요일
                         else if (col == 6)
                             dayLabel.ForeColor = Color.Blue;
                         else
                             dayLabel.ForeColor = Color.Black;
 
-                        if (holidays.ContainsKey(thisDate))
-                        {
-                            dayLabel.ForeColor = Color.Red;
-                            dayLabel.Text += $"\n{holidays[thisDate]}";
+                        // ✅ 클릭 이벤트 등록
+                        dayPanel.Click += (s, e) => AddRandomActivitiesToPanel(dayPanel);
+                        dayLabel.Click += (s, e) => AddRandomActivitiesToPanel(dayPanel);
 
-                        }
-
-                        tableLayoutPanel.Controls.Add(dayLabel, col, row);
+                        dayPanel.Controls.Add(dayLabel);
+                        dayPanel.Controls.Add(holidayLabel);
+                        tableLayoutPanel.Controls.Add(dayPanel, col, row);
                         day++;
                     }
                 }
+            }
+        }
+
+        private void AddRandomActivitiesToPanel(Panel panel)
+        {
+            var rand = new Random();
+            var allItems = listBoxActivities.Items.Cast<string>().ToList();
+            if (allItems.Count < 3) return;
+
+            // 이미 등록된 활동 수만큼 아래에 추가
+            int existing = panel.Controls.Count;
+            int topOffset = 25 + (existing - 2) * 18; // 2는 dayLabel, holidayLabel 제외
+
+            var selected = allItems.OrderBy(x => rand.Next()).Take(3).ToList();
+
+            foreach (var activity in selected)
+            {
+                Label actLabel = new Label();
+                actLabel.Text = activity;
+                actLabel.Font = new Font("맑은 고딕", 8);
+                actLabel.AutoSize = false;
+                actLabel.Width = panel.Width - 10;
+                actLabel.Height = 16;
+                actLabel.Location = new Point(5, topOffset);
+                actLabel.ForeColor = Color.Black;
+
+                topOffset += 16;
+                panel.Controls.Add(actLabel);
+            }
+        }
+
+        private async Task<Dictionary<DateTime, string>> GetHolidaysAsync(int year, int month)
+        {
+            var apiKey = "coORf%2Fadr5Q4QdTlwmt4Uv9EjJNT3hioOnbntLqqpTWtCxDYgSc%2BoYkZR%2BbSCwzeaBsaWmXgZfYvyuZi2gOpAw%3D%3D";
+            var url = $"https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo" +
+                      $"?solYear={year}&solMonth={month.ToString("D2")}&ServiceKey={apiKey}&_type=json";
+
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetStringAsync(url);
+
+                var holidays = new Dictionary<DateTime, string>();
+                var json = JObject.Parse(response);
+                var itemsToken = json["response"]?["body"]?["items"];
+
+                if (itemsToken == null || itemsToken.Type == JTokenType.Null)
+                    return holidays;
+
+                if (itemsToken.Type == JTokenType.Object)
+                {
+                    var itemToken = itemsToken["item"];
+                    if (itemToken == null || itemToken.Type == JTokenType.Null)
+                        return holidays;
+
+                    var items = itemToken.Type == JTokenType.Array ? itemToken : new JArray(itemToken);
+
+                    foreach (var item in items)
+                    {
+                        var dateStr = item["locdate"]?.ToString();
+                        var name = item["dateName"]?.ToString();
+                        if (DateTime.TryParseExact(dateStr, "yyyyMMdd", null, DateTimeStyles.None, out DateTime date))
+                            holidays[date] = name;
+                    }
+                }
+                else if (itemsToken.Type == JTokenType.Array)
+                {
+                    foreach (var itemToken in itemsToken)
+                    {
+                        var dateStr = itemToken["locdate"]?.ToString();
+                        var name = itemToken["dateName"]?.ToString();
+                        if (DateTime.TryParseExact(dateStr, "yyyyMMdd", null, DateTimeStyles.None, out DateTime date))
+                            holidays[date] = name;
+                    }
+                }
+
+                return holidays;
             }
         }
 
@@ -108,64 +204,6 @@ namespace Schedule
                 currentYear++;
             }
             DrawCalendar();
-        }
-        public async Task<Dictionary<DateTime, string>> GetHolidaysAsync(int year, int month)
-        {
-            var apiKey = "coORf%2Fadr5Q4QdTlwmt4Uv9EjJNT3hioOnbntLqqpTWtCxDYgSc%2BoYkZR%2BbSCwzeaBsaWmXgZfYvyuZi2gOpAw%3D%3D";
-            var url = $"https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo" +
-                      $"?solYear={year}&solMonth={month.ToString("D2")}&ServiceKey={apiKey}&_type=json";
-
-            using (var client = new HttpClient())
-            {
-                var response = await client.GetStringAsync(url);
-
-                var holidays = new Dictionary<DateTime, string>();
-
-                var json = JObject.Parse(response);
-                var itemsToken = json["response"]?["body"]?["items"];
-
-                if (itemsToken == null || itemsToken.Type == JTokenType.Null)
-                {
-                    Console.WriteLine("해당 월에는 공휴일이 없습니다.");
-                    return holidays;
-                }
-
-                if (itemsToken.Type == JTokenType.Object)
-                {
-                    var itemToken = itemsToken["item"];
-                    if (itemToken == null || itemToken.Type == JTokenType.Null)
-                    {
-                        return holidays;
-                    }
-
-                    var items = itemToken.Type == JTokenType.Array ? itemToken : new JArray(itemToken);
-
-                    foreach (var item in items)
-                    {
-                        var dateStr = item["locdate"]?.ToString();
-                        var name = item["dateName"]?.ToString();
-                        if (DateTime.TryParseExact(dateStr, "yyyyMMdd", null, DateTimeStyles.None, out DateTime date))
-                        {
-                            holidays[date] = name;
-                        }
-                    }
-                }
-                else if (itemsToken.Type == JTokenType.Array)
-                {
-                    foreach (var itemToken in itemsToken)
-                    {
-                        var dateStr = itemToken["locdate"]?.ToString();
-                        var name = itemToken["dateName"]?.ToString();
-                        if (DateTime.TryParseExact(dateStr, "yyyyMMdd", null, DateTimeStyles.None, out DateTime date))
-                        {
-                            holidays[date] = name;
-                        }
-                    }
-                }
-
-                return holidays;
-            }
-            
         }
 
         private void guna2GradientButton1_Click(object sender, EventArgs e)
