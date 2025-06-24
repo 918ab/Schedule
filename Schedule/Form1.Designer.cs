@@ -41,16 +41,21 @@
             this.titleLabel = new System.Windows.Forms.Label();
             this.rightMonth = new Guna.UI2.WinForms.Guna2Button();
             this.leftMonth = new Guna.UI2.WinForms.Guna2Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.labelSunday = new System.Windows.Forms.Label();
+            this.labelMonday = new System.Windows.Forms.Label();
+            this.labelTuesday = new System.Windows.Forms.Label();
+            this.labelWednesday = new System.Windows.Forms.Label();
+            this.labelThursday = new System.Windows.Forms.Label();
+            this.labelFriday = new System.Windows.Forms.Label();
+            this.labelSaturday = new System.Windows.Forms.Label();
             this.guna2Separator1 = new Guna.UI2.WinForms.Guna2Separator();
             this.guna2TextBox1 = new Guna.UI2.WinForms.Guna2TextBox();
             this.listBoxActivities = new System.Windows.Forms.ListBox();
+            this.assignRandomButton = new Guna.UI2.WinForms.Guna2Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.guna2TextBox2 = new Guna.UI2.WinForms.Guna2TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             this.guna2Panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -214,77 +219,91 @@
             this.leftMonth.Text = "◀";
             this.leftMonth.Click += new System.EventHandler(this.leftMonth_Click);
             // 
-            // label1
+            // labelSunday
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(90, 78);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(29, 19);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "일";
+            this.labelSunday.AutoSize = true;
+            this.labelSunday.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.labelSunday.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.labelSunday.ForeColor = System.Drawing.Color.Red;
+            this.labelSunday.Location = new System.Drawing.Point(90, 78);
+            this.labelSunday.Name = "labelSunday";
+            this.labelSunday.Size = new System.Drawing.Size(29, 19);
+            this.labelSunday.TabIndex = 6;
+            this.labelSunday.Text = "일";
+            this.labelSunday.Click += new System.EventHandler(this.labelSunday_Click);
             // 
-            // label2
+            // labelMonday
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label2.Location = new System.Drawing.Point(252, 78);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(29, 19);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "월";
+            this.labelMonday.AutoSize = true;
+            this.labelMonday.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.labelMonday.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.labelMonday.Location = new System.Drawing.Point(252, 78);
+            this.labelMonday.Name = "labelMonday";
+            this.labelMonday.Size = new System.Drawing.Size(29, 19);
+            this.labelMonday.TabIndex = 6;
+            this.labelMonday.Text = "월";
+            this.labelMonday.Click += new System.EventHandler(this.labelMonday_Click);
             // 
-            // label3
+            // labelTuesday
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label3.Location = new System.Drawing.Point(414, 78);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(29, 19);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "화";
+            this.labelTuesday.AutoSize = true;
+            this.labelTuesday.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.labelTuesday.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.labelTuesday.Location = new System.Drawing.Point(414, 78);
+            this.labelTuesday.Name = "labelTuesday";
+            this.labelTuesday.Size = new System.Drawing.Size(29, 19);
+            this.labelTuesday.TabIndex = 6;
+            this.labelTuesday.Text = "화";
+            this.labelTuesday.Click += new System.EventHandler(this.labelTuesday_Click);
             // 
-            // label4
+            // labelWednesday
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label4.Location = new System.Drawing.Point(576, 78);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(29, 19);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "수";
+            this.labelWednesday.AutoSize = true;
+            this.labelWednesday.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.labelWednesday.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.labelWednesday.Location = new System.Drawing.Point(576, 78);
+            this.labelWednesday.Name = "labelWednesday";
+            this.labelWednesday.Size = new System.Drawing.Size(29, 19);
+            this.labelWednesday.TabIndex = 6;
+            this.labelWednesday.Text = "수";
+            this.labelWednesday.Click += new System.EventHandler(this.labelWednesday_Click);
             // 
-            // label5
+            // labelThursday
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label5.Location = new System.Drawing.Point(738, 78);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(29, 19);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "목";
+            this.labelThursday.AutoSize = true;
+            this.labelThursday.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.labelThursday.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.labelThursday.Location = new System.Drawing.Point(738, 78);
+            this.labelThursday.Name = "labelThursday";
+            this.labelThursday.Size = new System.Drawing.Size(29, 19);
+            this.labelThursday.TabIndex = 6;
+            this.labelThursday.Text = "목";
+            this.labelThursday.Click += new System.EventHandler(this.labelThursday_Click);
             // 
-            // label6
+            // labelFriday
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label6.Location = new System.Drawing.Point(900, 78);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(29, 19);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "금";
+            this.labelFriday.AutoSize = true;
+            this.labelFriday.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.labelFriday.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.labelFriday.Location = new System.Drawing.Point(900, 78);
+            this.labelFriday.Name = "labelFriday";
+            this.labelFriday.Size = new System.Drawing.Size(29, 19);
+            this.labelFriday.TabIndex = 6;
+            this.labelFriday.Text = "금";
+            this.labelFriday.Click += new System.EventHandler(this.labelFriday_Click);
             // 
-            // label7
+            // labelSaturday
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.label7.ForeColor = System.Drawing.Color.Blue;
-            this.label7.Location = new System.Drawing.Point(1062, 78);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(29, 19);
-            this.label7.TabIndex = 6;
-            this.label7.Text = "토";
+            this.labelSaturday.AutoSize = true;
+            this.labelSaturday.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.labelSaturday.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.labelSaturday.ForeColor = System.Drawing.Color.Blue;
+            this.labelSaturday.Location = new System.Drawing.Point(1062, 78);
+            this.labelSaturday.Name = "labelSaturday";
+            this.labelSaturday.Size = new System.Drawing.Size(29, 19);
+            this.labelSaturday.TabIndex = 6;
+            this.labelSaturday.Text = "토";
+            this.labelSaturday.Click += new System.EventHandler(this.labelSaturday_Click);
             // 
             // guna2Separator1
             // 
@@ -302,44 +321,126 @@
             this.guna2TextBox1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
             this.guna2TextBox1.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
             this.guna2TextBox1.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2TextBox1.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guna2TextBox1.ForeColor = System.Drawing.Color.Black;
             this.guna2TextBox1.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox1.Location = new System.Drawing.Point(1237, 121);
+            this.guna2TextBox1.Location = new System.Drawing.Point(1356, 131);
             this.guna2TextBox1.Name = "guna2TextBox1";
             this.guna2TextBox1.PlaceholderText = "";
             this.guna2TextBox1.SelectedText = "";
-            this.guna2TextBox1.Size = new System.Drawing.Size(179, 28);
+            this.guna2TextBox1.Size = new System.Drawing.Size(141, 28);
             this.guna2TextBox1.TabIndex = 8;
+            this.guna2TextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // listBoxActivities
             // 
+            this.listBoxActivities.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.listBoxActivities.FormattingEnabled = true;
-            this.listBoxActivities.ItemHeight = 12;
-            this.listBoxActivities.Location = new System.Drawing.Point(1237, 186);
+            this.listBoxActivities.ItemHeight = 15;
+            this.listBoxActivities.Location = new System.Drawing.Point(1217, 222);
             this.listBoxActivities.Name = "listBoxActivities";
-            this.listBoxActivities.Size = new System.Drawing.Size(120, 88);
+            this.listBoxActivities.Size = new System.Drawing.Size(149, 229);
             this.listBoxActivities.TabIndex = 0;
+            // 
+            // assignRandomButton
+            // 
+            this.assignRandomButton.BorderRadius = 10;
+            this.assignRandomButton.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.assignRandomButton.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.assignRandomButton.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.assignRandomButton.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.assignRandomButton.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.assignRandomButton.Font = new System.Drawing.Font("굴림", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.assignRandomButton.ForeColor = System.Drawing.Color.Black;
+            this.assignRandomButton.Location = new System.Drawing.Point(1217, 482);
+            this.assignRandomButton.Name = "assignRandomButton";
+            this.assignRandomButton.Size = new System.Drawing.Size(107, 45);
+            this.assignRandomButton.TabIndex = 9;
+            this.assignRandomButton.Text = "넣기";
+            this.assignRandomButton.Click += new System.EventHandler(this.assignRandomButton_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label8.Location = new System.Drawing.Point(1213, 131);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(111, 19);
+            this.label8.TabIndex = 10;
+            this.label8.Text = "어르신     :";
+            // 
+            // guna2TextBox2
+            // 
+            this.guna2TextBox2.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.guna2TextBox2.DefaultText = "";
+            this.guna2TextBox2.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.guna2TextBox2.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.guna2TextBox2.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.guna2TextBox2.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.guna2TextBox2.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.guna2TextBox2.Font = new System.Drawing.Font("굴림", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guna2TextBox2.ForeColor = System.Drawing.Color.Black;
+            this.guna2TextBox2.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.guna2TextBox2.Location = new System.Drawing.Point(1356, 165);
+            this.guna2TextBox2.Name = "guna2TextBox2";
+            this.guna2TextBox2.PlaceholderText = "";
+            this.guna2TextBox2.SelectedText = "";
+            this.guna2TextBox2.Size = new System.Drawing.Size(141, 28);
+            this.guna2TextBox2.TabIndex = 8;
+            this.guna2TextBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("굴림", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label9.Location = new System.Drawing.Point(1213, 165);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(111, 19);
+            this.label9.TabIndex = 10;
+            this.label9.Text = "담당자     :";
+            // 
+            // guna2Button1
+            // 
+            this.guna2Button1.BorderRadius = 10;
+            this.guna2Button1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.guna2Button1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.guna2Button1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.guna2Button1.Font = new System.Drawing.Font("굴림", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.guna2Button1.ForeColor = System.Drawing.Color.Black;
+            this.guna2Button1.Location = new System.Drawing.Point(1390, 482);
+            this.guna2Button1.Name = "guna2Button1";
+            this.guna2Button1.Size = new System.Drawing.Size(107, 45);
+            this.guna2Button1.TabIndex = 9;
+            this.guna2Button1.Text = "출력";
+            this.guna2Button1.Click += new System.EventHandler(this.assignRandomButton_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1590, 701);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.guna2Button1);
+            this.Controls.Add(this.assignRandomButton);
             this.Controls.Add(this.listBoxActivities);
+            this.Controls.Add(this.guna2TextBox2);
             this.Controls.Add(this.guna2TextBox1);
             this.Controls.Add(this.guna2Separator1);
             this.Controls.Add(this.tableLayoutPanel);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelSaturday);
+            this.Controls.Add(this.labelFriday);
+            this.Controls.Add(this.labelThursday);
+            this.Controls.Add(this.labelWednesday);
+            this.Controls.Add(this.labelTuesday);
+            this.Controls.Add(this.labelMonday);
+            this.Controls.Add(this.labelSunday);
             this.Controls.Add(this.guna2Panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Form1";
-            this.Text = "e";
+            this.Text = "인지활동";
             this.guna2Panel1.ResumeLayout(false);
             this.guna2Panel1.PerformLayout();
             this.ResumeLayout(false);
@@ -359,18 +460,23 @@
         private System.Windows.Forms.Label titleLabel;
         private Guna.UI2.WinForms.Guna2Button leftMonth;
         private Guna.UI2.WinForms.Guna2Button rightMonth;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelSaturday;
+        private System.Windows.Forms.Label labelFriday;
+        private System.Windows.Forms.Label labelThursday;
+        private System.Windows.Forms.Label labelWednesday;
+        private System.Windows.Forms.Label labelTuesday;
+        private System.Windows.Forms.Label labelMonday;
+        private System.Windows.Forms.Label labelSunday;
         private Guna.UI2.WinForms.Guna2ControlBox guna2ControlBox3;
         private Guna.UI2.WinForms.Guna2Separator guna2Separator1;
         private Guna.UI2.WinForms.Guna2GradientButton guna2GradientButton1;
         private Guna.UI2.WinForms.Guna2TextBox guna2TextBox1;
         private System.Windows.Forms.ListBox listBoxActivities;
+        private Guna.UI2.WinForms.Guna2Button assignRandomButton;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox2;
+        private Guna.UI2.WinForms.Guna2Button guna2Button1;
     }
 }
 
