@@ -16,7 +16,6 @@ namespace Schedule
 {
     public partial class Form1 : Form
     {
-        private DateTime currentDate = DateTime.Now;
         int currentYear = DateTime.Now.Year;
         int currentMonth = DateTime.Now.Month;
 
@@ -25,42 +24,61 @@ namespace Schedule
         public Form1()
         {
             InitializeComponent();
-            InitActivityList();
+            InitActivityLists();
             UpdateTitle();
             DrawCalendar();
         }
-        private void InitActivityList()
+        private void InitActivityLists()
         {
-            string folderPath = @"C:\Schedule";
-            string filePath = Path.Combine(folderPath, "list.txt");
-
-            string[] defaultActivities = new string[]
-            {
-        "사랑의 편지 쓰기", "퍼즐 맞추기", "신문읽기", "미술활동", "체조", "노래 부르기",
-        "종이접기", "건강체조", "동화 듣기", "회상 퀴즈"
-            };
-
             try
             {
-                // 파일이 없으면 생성하고 기본 활동 저장
-                if (!File.Exists(filePath))
+                string folderPath = @"C:\Schedule";
+                string normalFilePath = Path.Combine(folderPath, "인지활동.txt");
+                string specialFilePath = Path.Combine(folderPath, "일상생활활동.txt");
+
+                // 폴더가 없다면 생성
+                if (!Directory.Exists(folderPath))
                 {
-                    File.WriteAllLines(filePath, defaultActivities);
+                    Directory.CreateDirectory(folderPath);
                 }
 
-                // 파일에서 활동 목록 읽어오기
-                string[] activities = File.ReadAllLines(filePath);
+                // 일반 활동 파일이 없다면 생성
+                if (!File.Exists(normalFilePath))
+                {
+                    File.WriteAllLines(normalFilePath, new string[]
+                    {
+                "청소하기", "독서하기", "산책하기", "운동하기", "요리하기"
+                    });
+                }
 
+                // 특별 활동 파일이 없다면 생성
+                if (!File.Exists(specialFilePath))
+                {
+                    File.WriteAllLines(specialFilePath, new string[]
+                    {
+                "놀이공원 가기", "카페 탐방", "영화관 가기", "게임하기"
+                    });
+                }
+
+                // 리스트박스 초기화
                 listBoxActivities.Items.Clear();
-                listBoxActivities.Items.AddRange(activities);
+                listBoxActivities2.Items.Clear();
+
+                foreach (var line in File.ReadAllLines(normalFilePath))
+                {
+                    listBoxActivities.Items.Add(line);
+                }
+
+                foreach (var line in File.ReadAllLines(specialFilePath))
+                {
+                    listBoxActivities2.Items.Add(line);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("활동 목록을 불러오는 중 오류가 발생했습니다.\n" + ex.Message,
-                                "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("활동 목록 초기화 중 오류 발생: " + ex.Message);
             }
         }
-
 
         private void UpdateTitle()
         {
@@ -164,19 +182,41 @@ namespace Schedule
         private void AssignRandomActivities()
         {
             var rand = new Random();
-            var allItems = listBoxActivities.Items.Cast<string>().ToList();
-            if (allItems.Count < 3) return;
 
-            foreach (var panel in selectedPanels)
+            var generalPool = listBoxActivities.Items.Cast<string>().ToList();
+            var specialPool = listBoxActivities2.Items.Cast<string>().ToList();
+
+            if (generalPool.Count < 2 || specialPool.Count < 1 || selectedPanels.Count == 0) return;
+
+            var generalCopy = generalPool.OrderBy(x => rand.Next()).ToList();
+            var specialCopy = specialPool.OrderBy(x => rand.Next()).ToList();
+
+            var shuffledPanels = selectedPanels.OrderBy(x => rand.Next()).ToList();
+
+            foreach (var panel in shuffledPanels)
             {
+                // 기존 활동 제거
                 var toRemove = panel.Controls.OfType<Label>().Where(l => l.Tag?.ToString() == "activity").ToList();
                 foreach (var lbl in toRemove)
                     panel.Controls.Remove(lbl);
 
-                var selected = allItems.OrderBy(x => rand.Next()).Take(3).ToList();
+                // 부족하면 다시 섞어 채움
+                if (generalCopy.Count < 2)
+                    generalCopy = generalPool.OrderBy(x => rand.Next()).ToList();
+                if (specialCopy.Count < 1)
+                    specialCopy = specialPool.OrderBy(x => rand.Next()).ToList();
+
+                // 일반 2개, 특수 1개 선택
+                var selectedGeneral = generalCopy.Take(2).ToList();
+                var selectedSpecial = specialCopy.Take(1).ToList();
+
+                generalCopy = generalCopy.Skip(2).ToList();
+                specialCopy = specialCopy.Skip(1).ToList();
+
+                var activities = selectedGeneral.Concat(selectedSpecial).ToList();
                 int topOffset = 30;
 
-                foreach (var activity in selected)
+                foreach (var activity in activities)
                 {
                     Label actLabel = new Label
                     {
@@ -189,6 +229,8 @@ namespace Schedule
                         ForeColor = Color.Black,
                         Tag = "activity"
                     };
+
+                    // 다시 선택 기능
                     actLabel.Click += (s, e) =>
                     {
                         Panel parent = ((Control)s).Parent as Panel;
@@ -314,34 +356,6 @@ namespace Schedule
                 }
             }
         }
-        private void TogglePanelSelection(Panel panel, bool? forceSelect = null)
-        {
-            bool isSelected = selectedPanels.Contains(panel);
-
-            if (forceSelect == true && !isSelected)
-            {
-                selectedPanels.Add(panel);
-                panel.BackColor = Color.LightBlue;
-            }
-            else if (forceSelect == false && isSelected)
-            {
-                selectedPanels.Remove(panel);
-                panel.BackColor = Color.White;
-            }
-            else if (forceSelect == null)
-            {
-                if (isSelected)
-                {
-                    selectedPanels.Remove(panel);
-                    panel.BackColor = Color.White;
-                }
-                else
-                {
-                    selectedPanels.Add(panel);
-                    panel.BackColor = Color.LightBlue;
-                }
-            }
-        }
         private void labelMonday_Click(object sender, EventArgs e)
         {
             SelectDaysByWeekday(DayOfWeek.Monday);
@@ -375,6 +389,68 @@ namespace Schedule
         private void labelSunday_Click(object sender, EventArgs e)
         {
             SelectDaysByWeekday(DayOfWeek.Sunday);
+        }
+
+        private void btnReload_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string folderPath = @"C:\Schedule";
+                string filePath = Path.Combine(folderPath, "인지활동.txt");
+                string[] lines = File.ReadAllLines(filePath);
+                listBoxActivities.Items.Clear();
+                listBoxActivities.Items.AddRange(lines);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("활동 목록을 다시 불러오는 중 오류 발생:\n" + ex.Message, "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnOpen_Click(object sender, EventArgs e)
+        
+        {
+            try
+            {
+                string folderPath = @"C:\Schedule";
+                string filePath = Path.Combine(folderPath, "인지활동.txt");
+                System.Diagnostics.Process.Start("notepad.exe", filePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("파일을 여는 중 오류 발생:\n" + ex.Message, "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnOpen2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string folderPath = @"C:\Schedule";
+                string filePath = Path.Combine(folderPath, "일상생활활동.txt");
+
+                System.Diagnostics.Process.Start("notepad.exe", filePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("파일을 여는 중 오류 발생:\n" + ex.Message, "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnReload2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string folderPath = @"C:\Schedule";
+                string filePath = Path.Combine(folderPath, "일상생활활동.txt");
+                string[] lines = File.ReadAllLines(filePath);
+                listBoxActivities2.Items.Clear();
+                listBoxActivities2.Items.AddRange(lines);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("활동 목록을 다시 불러오는 중 오류 발생:\n" + ex.Message, "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
