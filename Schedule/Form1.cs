@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
@@ -18,7 +16,6 @@ namespace Schedule
     {
         int currentYear = DateTime.Now.Year;
         int currentMonth = DateTime.Now.Month;
-
         private List<Panel> selectedPanels = new List<Panel>();
 
         public Form1()
@@ -27,8 +24,10 @@ namespace Schedule
             InitActivityLists();
             UpdateTitle();
             DrawCalendar();
+
         }
-        private void InitActivityLists()
+        
+        private void InitActivityLists()    
         {
             try
             {
@@ -36,13 +35,12 @@ namespace Schedule
                 string normalFilePath = Path.Combine(folderPath, "인지활동.txt");
                 string specialFilePath = Path.Combine(folderPath, "일상생활활동.txt");
 
-                // 폴더가 없다면 생성
                 if (!Directory.Exists(folderPath))
                 {
                     Directory.CreateDirectory(folderPath);
                 }
 
-                // 일반 활동 파일이 없다면 생성
+
                 if (!File.Exists(normalFilePath))
                 {
                     File.WriteAllLines(normalFilePath, new string[]
@@ -51,7 +49,6 @@ namespace Schedule
                     });
                 }
 
-                // 특별 활동 파일이 없다면 생성
                 if (!File.Exists(specialFilePath))
                 {
                     File.WriteAllLines(specialFilePath, new string[]
@@ -60,7 +57,6 @@ namespace Schedule
                     });
                 }
 
-                // 리스트박스 초기화
                 listBoxActivities.Items.Clear();
                 listBoxActivities2.Items.Clear();
 
@@ -99,9 +95,9 @@ namespace Schedule
 
             for (int row = 0; row < 5; row++)
             {
-                for (int col = 0; col < 7; col++)
+                for (int col = 0; col < 8; col++)
                 {
-                    int cellIndex = row * 7 + col;
+                    int cellIndex = row * 8 + col;
                     if (cellIndex >= startDayOfWeek && day <= daysInMonth)
                     {
                         DateTime thisDate = new DateTime(currentYear, currentMonth, day);
@@ -138,14 +134,15 @@ namespace Schedule
                             holidayLabel.Location = new Point(dayPanel.Width - holidayLabel.Width - 5, 8);
                         };
 
-                        if (col == 0 || holidays.ContainsKey(thisDate))
+                        DayOfWeek dayOfWeek = thisDate.DayOfWeek;
+
+                        if (dayOfWeek == DayOfWeek.Sunday || holidays.ContainsKey(thisDate))
                             dayLabel.ForeColor = Color.Red;
-                        else if (col == 6)
+                        else if (dayOfWeek == DayOfWeek.Saturday)
                             dayLabel.ForeColor = Color.Blue;
                         else
                             dayLabel.ForeColor = Color.Black;
 
-                        // ✅ 클릭 이벤트 등록
                         AddPanelClickEvents(dayPanel, dayLabel, holidayLabel);
 
                         dayPanel.Controls.Add(dayLabel);
@@ -195,18 +192,15 @@ namespace Schedule
 
             foreach (var panel in shuffledPanels)
             {
-                // 기존 활동 제거
                 var toRemove = panel.Controls.OfType<Label>().Where(l => l.Tag?.ToString() == "activity").ToList();
                 foreach (var lbl in toRemove)
                     panel.Controls.Remove(lbl);
 
-                // 부족하면 다시 섞어 채움
                 if (generalCopy.Count < 2)
                     generalCopy = generalPool.OrderBy(x => rand.Next()).ToList();
                 if (specialCopy.Count < 1)
                     specialCopy = specialPool.OrderBy(x => rand.Next()).ToList();
 
-                // 일반 2개, 특수 1개 선택
                 var selectedGeneral = generalCopy.Take(2).ToList();
                 var selectedSpecial = specialCopy.Take(1).ToList();
 
@@ -230,7 +224,6 @@ namespace Schedule
                         Tag = "activity"
                     };
 
-                    // 다시 선택 기능
                     actLabel.Click += (s, e) =>
                     {
                         Panel parent = ((Control)s).Parent as Panel;
@@ -326,15 +319,19 @@ namespace Schedule
         {
             currentYear = DateTime.Now.Year;
             currentMonth = DateTime.Now.Month;
+            guna2CheckBox1.Checked = false;
+            guna2CheckBox2.Checked = false;
             DrawCalendar();
         }
 
         private void assignRandomButton_Click(object sender, EventArgs e)
         {
             AssignRandomActivities();
+            guna2CheckBox1.Checked = false;
+            guna2CheckBox2.Checked = false;
         }
 
-        private void SelectDaysByWeekday(DayOfWeek day)
+        private void SelectDaysByWeekday(DayOfWeek day, bool isSelected)
         {
             foreach (Control ctrl in tableLayoutPanel.Controls)
             {
@@ -342,53 +339,81 @@ namespace Schedule
                 {
                     if (date.DayOfWeek == day)
                     {
-                        if (selectedPanels.Contains(panel))
+                        if (isSelected)
                         {
-                            selectedPanels.Remove(panel);
-                            panel.BackColor = Color.White;
+                            if (!selectedPanels.Contains(panel))
+                            {
+                                selectedPanels.Add(panel);
+                                panel.BackColor = Color.LightGreen;
+                            }
                         }
                         else
                         {
-                            selectedPanels.Add(panel);
-                            panel.BackColor = Color.LightGreen;
+                            if (selectedPanels.Contains(panel))
+                            {
+                                selectedPanels.Remove(panel);
+                                panel.BackColor = Color.White;
+                            }
                         }
                     }
                 }
             }
         }
+        private bool IsAllSelected(DayOfWeek day)
+        {
+            foreach (Control ctrl in tableLayoutPanel.Controls)
+            {
+                if (ctrl is Panel panel && panel.Tag is DateTime date)
+                {
+                    if (date.DayOfWeek == day)
+                    {
+                        if (!selectedPanels.Contains(panel))
+                            return false;
+                    }
+                }
+            }
+            return true;
+        }
         private void labelMonday_Click(object sender, EventArgs e)
         {
-            SelectDaysByWeekday(DayOfWeek.Monday);
+            bool selectAll = !IsAllSelected(DayOfWeek.Monday);
+            SelectDaysByWeekday(DayOfWeek.Monday, selectAll);
         }
 
         private void labelTuesday_Click(object sender, EventArgs e)
         {
-            SelectDaysByWeekday(DayOfWeek.Tuesday);
+            bool selectAll = !IsAllSelected(DayOfWeek.Tuesday);
+            SelectDaysByWeekday(DayOfWeek.Tuesday, selectAll);
         }
 
         private void labelWednesday_Click(object sender, EventArgs e)
         {
-            SelectDaysByWeekday(DayOfWeek.Wednesday);
+            bool selectAll = !IsAllSelected(DayOfWeek.Wednesday);
+            SelectDaysByWeekday(DayOfWeek.Wednesday, selectAll);
         }
 
         private void labelThursday_Click(object sender, EventArgs e)
         {
-            SelectDaysByWeekday(DayOfWeek.Thursday);
+            bool selectAll = !IsAllSelected(DayOfWeek.Thursday);
+            SelectDaysByWeekday(DayOfWeek.Thursday, selectAll);
         }
 
         private void labelFriday_Click(object sender, EventArgs e)
         {
-            SelectDaysByWeekday(DayOfWeek.Friday);
+            bool selectAll = !IsAllSelected(DayOfWeek.Friday);
+            SelectDaysByWeekday(DayOfWeek.Friday, selectAll);
         }
 
         private void labelSaturday_Click(object sender, EventArgs e)
         {
-            SelectDaysByWeekday(DayOfWeek.Saturday);
+            bool selectAll = !IsAllSelected(DayOfWeek.Saturday);
+            SelectDaysByWeekday(DayOfWeek.Saturday, selectAll);
         }
 
         private void labelSunday_Click(object sender, EventArgs e)
         {
-            SelectDaysByWeekday(DayOfWeek.Sunday);
+            bool selectAll = !IsAllSelected(DayOfWeek.Sunday);
+            SelectDaysByWeekday(DayOfWeek.Sunday, selectAll);
         }
 
         private void btnReload_Click(object sender, EventArgs e)
@@ -452,5 +477,115 @@ namespace Schedule
                 MessageBox.Show("활동 목록을 다시 불러오는 중 오류 발생:\n" + ex.Message, "오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private void btnout_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(guna2TextBox1.Text))
+            {
+                MessageBox.Show("어르신 이름을 입력해주세요.", "입력 오류", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(guna2TextBox2.Text))
+            {
+                MessageBox.Show("담당자 이름을 입력해주세요.", "입력 오류", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            bool hasActivity = tableLayoutPanel.Controls.OfType<Panel>()
+                                   .Any(p => p.Controls.OfType<Label>().Any(l => l.Tag?.ToString() == "activity"));
+
+            if (!hasActivity)
+            {
+                MessageBox.Show("달력에 활동이 하나 이상 설정되어야 합니다.", "설정 오류", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var replacements = new Dictionary<string, string>
+            {
+                { "{어르신}", guna2TextBox1.Text },
+                { "{YYYY}", currentYear.ToString() },
+                { "{MM}", currentMonth.ToString("D2") },
+                { "{담당자}", guna2TextBox2.Text }
+            };
+
+            for (int i = 1; i <= 42; i++)
+            {
+                replacements[$"{{{i}d}}"] = "";
+                replacements[$"{{{i}1}}"] = "";
+                replacements[$"{{{i}2}}"] = "";
+                replacements[$"{{{i}3}}"] = "";
+            }
+
+            for (int row = 0; row < tableLayoutPanel.RowCount; row++)
+            {
+                for (int col = 0; col < tableLayoutPanel.ColumnCount; col++)
+                {
+                    if (tableLayoutPanel.GetControlFromPosition(col, row) is Panel panel && panel.Tag is DateTime)
+                    {
+                        int placeholderIndex = (row * tableLayoutPanel.ColumnCount) + col + 1;
+                        var dayLabel = panel.Controls.OfType<Label>()
+                                              .FirstOrDefault(l => l.Tag?.ToString() != "activity");
+                        if (dayLabel != null)
+                        {
+                            replacements[$"{{{placeholderIndex}d}}"] = dayLabel.Text;
+                        }
+                        var activityLabels = panel.Controls.OfType<Label>()
+                                                      .Where(l => l.Tag?.ToString() == "activity")
+                                                      .ToList();
+                        for (int i = 0; i < 3; i++)
+                        {
+                            string placeholder = $"{{{placeholderIndex}{i + 1}}}";
+                            string value = (i < activityLabels.Count) ? activityLabels[i].Text : "";
+                            replacements[placeholder] = value;
+                        }
+                    }
+                }
+            }
+
+            string hwpFilePath = @"C:\Schedule\인지활동계획표.hwp";
+            MyPopupForm popup = new MyPopupForm(hwpFilePath, replacements);
+            popup.StartPosition = FormStartPosition.CenterParent;
+            popup.ShowDialog(this);
+        }
+
+
+
+        private void guna2CheckBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            SelectDaysByWeekday(DayOfWeek.Monday, guna2CheckBox1.Checked);
+            SelectDaysByWeekday(DayOfWeek.Tuesday, guna2CheckBox1.Checked);
+            SelectDaysByWeekday(DayOfWeek.Wednesday, guna2CheckBox1.Checked);
+            SelectDaysByWeekday(DayOfWeek.Thursday, guna2CheckBox1.Checked);
+            SelectDaysByWeekday(DayOfWeek.Friday, guna2CheckBox1.Checked);
+        }
+
+        private void guna2CheckBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            SelectDaysByWeekday(DayOfWeek.Saturday, guna2CheckBox2.Checked);
+            SelectDaysByWeekday(DayOfWeek.Sunday, guna2CheckBox2.Checked);
+        }
+
+        private void btnRemove_Click(object sender, EventArgs e)
+        {
+
+            foreach (Panel panel in selectedPanels)
+            {
+
+                var activityLabels = panel.Controls.OfType<Label>()
+                                            .Where(label => label.Tag?.ToString() == "activity")
+                                            .ToList();
+
+                foreach (Label labelToRemove in activityLabels)
+                {
+                    panel.Controls.Remove(labelToRemove);
+                }
+
+                panel.BackColor = Color.White;
+            }
+            guna2CheckBox1.Checked = false;
+            guna2CheckBox2.Checked = false;
+            selectedPanels.Clear();
+        }
     }
+
 }
